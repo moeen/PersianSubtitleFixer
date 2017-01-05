@@ -45,5 +45,5 @@ done
 echo
 echo "---------------------------"
 
-numberofsubs=`find "$HOME/$subfolder" -maxdepth 1 -type f -name '*srt' 2>/dev/null | wc -l`
+numberofsubs=`find "$HOME/$subfolder" -maxdepth 1 -type f -name '(fixed)*srt' 2>/dev/null | wc -l`
 echo "$numberofsubs subtitles fixed in $HOME/$subfolder"
