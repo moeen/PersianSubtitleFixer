@@ -7,7 +7,7 @@ echo "Persian Subtitle Fixer"
 echo "github.com/moeinroid/PersianSubtitleFixer"
 echo
 
-if [ -z "$subfolder" ];
+if [ -z "$subfolder" ]
 	then
 		read -p "Enter a name for fixed subtitles directory in your home directory :  " subfolder
 fi
@@ -19,7 +19,7 @@ fi
 
 echo
 
-if [ -z "$location" ];
+if [ -z "$location" ]
 	then
 		read -p "Enter your subtitles location :  " location
 fi
@@ -45,5 +45,5 @@ done
 echo
 echo "---------------------------"
 
-numberofsubs=`ls -1 "$HOME/$subfolder" | wc -l`
+numberofsubs=`find "$HOME/$subfolder" -maxdepth 1 -type f -name '*srt' 2>/dev/null | wc -l`
 echo "$numberofsubs subtitles fixed in $HOME/$subfolder"
