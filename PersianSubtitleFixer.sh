@@ -1,15 +1,29 @@
 #!/bin/bash
 IFS=$'\n'
+location=$1
+subfolder=$2
 clear
 echo "Persian Subtitle Fixer"
+echo "github.com/moeinroid/PersianSubtitleFixer"
 echo
-read -p "Enter a name for fixed subtitles directory in your home directory :  " subfolder
+
+if [ -z "$subfolder" ];
+	then
+		read -p "Enter a name for fixed subtitles directory in your home directory :  " subfolder
+fi
+
 if [ ! -d "$HOME/$subfolder" ]
 	then
-		mkdir "$HOME/$subfolder"		
+		mkdir "$HOME/$subfolder"
 fi
+
 echo
-read -p "Enter your subtitles location :  " location
+
+if [ -z "$location" ];
+	then
+		read -p "Enter your subtitles location :  " location
+fi
+
 subs=`find "$location" -type f -name '*srt'`
 
 for s in $subs;do
