@@ -34,7 +34,7 @@ for s in $subs;do
 				iconv -f WINDOWS-1256 -t UTF-8 "$s" -o "$HOME/$subfolder/(fixed)$subname"
 				echo "$subname fixed"
 			else
-				if [ "$type" == "Little-endian UTF-16 Unicode text, with CRLF line terminators" ]
+				if [ "$type" == "Little-endian UTF-16 Unicode text, with CRLF, CR line terminators" ]
 					then
 						subname=`echo $s | sed 's#.*/##'`
 						iconv -f UTF-16 -t UTF-8 "$s" -o "$HOME/$subfolder/(fixed)$subname"
