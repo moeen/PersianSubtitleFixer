@@ -1,49 +1,44 @@
 #!/bin/bash
+
 IFS=$'\n'
 location=$1
-subfolder=$2
-clear
+sub_folder=$2
+
 echo "Persian Subtitle Fixer"
-echo "github.com/moeinroid/PersianSubtitleFixer"
+echo "github.com/moeen/PersianSubtitleFixer"
 echo
 
-if [ -z "$subfolder" ]
-	then
-		read -p "Enter a name for fixed subtitles directory in your home directory :  " subfolder
+if [[ -z "$sub_folder" ]]; then
+    read -p "Enter the export directory name in $HOME: " sub_folder
 fi
 
-if [ ! -d "$HOME/$subfolder" ]
-	then
-		mkdir "$HOME/$subfolder"
+if [[ ! -d "$HOME/$sub_folder" ]]; then
+    mkdir "$HOME/$sub_folder"
 fi
 
-echo
-
-if [ -z "$location" ]
-	then
-		read -p "Enter your subtitles location :  " location
+if [[ -z "$location" ]]; then
+    read -p "Enter your subtitles directory address: " location
 fi
 
-subs=`find "$location" -type f -name '*srt'`
+subs=`find "$location" -type f -name '*.srt'`
 
-for s in $subs;do
-        type=`file -b $s`
-		if [ "$type" == "Non-ISO extended-ASCII text, with CRLF line terminators" ]
-			then
-				subname=`echo $s | sed 's#.*/##'`
-				iconv -f WINDOWS-1256 -t UTF-8 "$s" -o "$HOME/$subfolder/(fixed)$subname"
-				echo "$subname fixed"
-			else
-				if [ "$type" == "Little-endian UTF-16 Unicode text, with CRLF, CR line terminators" ]
-					then
-						subname=`echo $s | sed 's#.*/##'`
-						iconv -f UTF-16 -t UTF-8 "$s" -o "$HOME/$subfolder/(fixed)$subname"
-						echo "$subname fixed"
-				fi
-		fi
+number_of_subs=0
+
+for s in ${subs}; do
+    type=`file -b ${s}`
+    sub_name=`echo ${s} | sed 's#.*/##'`
+    if [[ "$type" == "Non-ISO extended-ASCII text, with CRLF line terminators" ]]; then
+        number_of_subs=$((number_of_subs+1))
+        iconv -f WINDOWS-1256 -t UTF-8 "$s" -o "$HOME/$sub_folder/FIXED_$sub_name"
+        echo "FIXED: $sub_name"
+    elif [[ "$type" == "Little-endian UTF-16 Unicode text, with CRLF, CR line terminators" ]]; then
+        number_of_subs=$((number_of_subs+1))
+        iconv -f UTF-16 -t UTF-8 "$s" -o "$HOME/$sub_folder/FIXED_$sub_name"
+        echo "FIXED: $sub_name"
+    fi
 done
+
 echo
 echo "---------------------------"
 
-numberofsubs=`find "$HOME/$subfolder" -maxdepth 1 -type f -name '(fixed)*srt' 2>/dev/null | wc -l`
-echo "$numberofsubs subtitles fixed in $HOME/$subfolder"
+echo "$number_of_subs subtitle(s) fixed in $HOME/$sub_folder"
